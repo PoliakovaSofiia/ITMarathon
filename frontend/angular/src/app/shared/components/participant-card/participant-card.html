@@ -4,34 +4,32 @@
 
 <span class="li-end">
   @if (isCurrentUser()) {
-    <span class="pill">You</span>
+  <span class="pill">You</span>
   } @else if (participant().isAdmin) {
-    <span class="pill">Admin</span>
+  <span class="pill">Admin</span>
   }
 
   @if (showCopyIcon() && !participant().isAdmin) {
-    <app-icon-button
-      [iconName]="iconCopy"
-      [ariaLabel]="ariaLabelCopy"
-      (click)="copyRoomLink()"
-      (mouseenter)="onCopyHover($event.currentTarget)"
-      (mouseleave)="onCopyLeave($event.currentTarget)"
-    />
+  <app-icon-button [iconName]="iconCopy"
+                   [ariaLabel]="ariaLabelCopy"
+                   (click)="copyRoomLink()"
+                   (mouseenter)="onCopyHover($event.currentTarget)"
+                   (mouseleave)="onCopyLeave($event.currentTarget)" />
   }
 
   @if (!isCurrentUser() && participant().isAdmin) {
-    <app-icon-button
-      [iconName]="iconInfo"
-      [ariaLabel]="ariaLabelInfo"
-      (click)="onInfoClick()"
-    />
+  <app-icon-button [iconName]="iconInfo"
+                   [ariaLabel]="ariaLabelInfo"
+                   (click)="onInfoClick()" />
   }
 
   @if (isCurrentUserAdmin() && !participant().isAdmin) {
-    <app-icon-button
-      [iconName]="iconInfo"
-      [ariaLabel]="ariaLabelInfo"
-      (click)="onInfoClick()"
-    />
+  <app-icon-button [iconName]="iconInfo"
+                   [ariaLabel]="ariaLabelInfo"
+                   (click)="onInfoClick()" />
+
+  <app-icon-button [iconName]="iconDelete"
+                   [ariaLabel]="ariaLabelDelete"
+                   (click)="onDeleteClick()" />
   }
-</span>
+</span> 

@@ -59,6 +59,10 @@ export class ParticipantCard {
   public readonly iconInfo = IconName.Info;
   public readonly ariaLabelInfo = AriaLabel.Info;
 
+  // Added delete icon/label
+  public readonly iconDelete = IconName.Close;
+  public readonly ariaLabelDelete = AriaLabel.Close;
+
   @HostBinding('tabindex') tab = 0;
   @HostBinding('class.list-row') rowClass = true;
 
@@ -119,6 +123,40 @@ export class ParticipantCard {
     if (target instanceof HTMLElement) {
       this.#popup.hide(target);
     }
+  }
+
+  // Added: delete handler - confirm then call service and show popup
+  public onDeleteClick(): void {
+    const participant = this.participant();
+    if (!participant?.id) return;
+
+    const confirmed = confirm(`Remove ${participant.firstName} ${participant.lastName} from the room?`);
+    if (!confirmed) return;
+
+    const host = this.#host.nativeElement.closest('app-participant-list') as HTMLElement;
+
+    this.#userService.deleteUser(participant.id).pipe(
+      tap({
+        next: ({ status }) => {
+          if (status === 200) {
+            this.#popup.show(
+              host,
+              PopupPosition.Right,
+              { message: 'Participant removed', type: MessageType.Success },
+              false
+            );
+          }
+        },
+        error: () => {
+          this.#popup.show(
+            host,
+            PopupPosition.Right,
+            { message: 'Failed to remove participant', type: MessageType.Error },
+            false
+          );
+        }
+      })
+    ).subscribe();
   }
 
   #openModal(): void {

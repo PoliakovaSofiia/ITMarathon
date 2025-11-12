@@ -57,4 +57,17 @@ export class UserService {
       })
     );
   }
+
+  // Added: request delete user by id (admin action). Refresh room/users on success.
+  public deleteUser(userId: number): Observable<HttpResponse<void>> {
+    return this.#apiService.deleteUser(this.#userCode(), userId).pipe(
+      tap(({ status }) => {
+        if (status === 200) {
+          // refresh room and users
+          this.#roomService.getRoomByUserCode(this.#userCode());
+          this.getUsers().subscribe();
+        }
+      })
+    );
+  }
 }

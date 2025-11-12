@@ -97,4 +97,19 @@ export class ApiService {
       { params, observe: 'response' }
     );
   }
+
+  // Added: delete user by id in room, authorized by userCode (admin's code)
+  public deleteUser(
+    userCode: string,
+    userId: number
+  ): Observable<HttpResponse<void>> {
+    const params = new HttpParams().set('userCode', userCode);
+    return this.#http.delete<void>(
+      `${this.#baseUrl}${Endpoint.users}/${userId}`,
+      {
+        params,
+        observe: 'response',
+      }
+    );
+  }
 }

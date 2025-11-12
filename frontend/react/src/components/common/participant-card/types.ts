@@ -1,4 +1,6 @@
 export interface ParticipantCardProps {
+  id?: number;
+  userCode?: string;
   firstName: string;
   lastName: string;
   isCurrentUser?: boolean;

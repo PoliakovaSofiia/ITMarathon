@@ -59,6 +59,8 @@ const ParticipantsList = ({ participants }: ParticipantsListProps) => {
           {admin ? (
             <ParticipantCard
               key={admin?.id}
+              id={admin?.id}
+              userCode={userCode}
               firstName={admin?.firstName}
               lastName={admin?.lastName}
               isCurrentUser={userCode === admin?.userCode}
@@ -72,10 +74,13 @@ const ParticipantsList = ({ participants }: ParticipantsListProps) => {
           {restParticipants?.map((user) => (
             <ParticipantCard
               key={user?.id}
+              id={user?.id}
+              userCode={userCode}
               firstName={user?.firstName}
               lastName={user?.lastName}
               isCurrentUser={userCode === user?.userCode}
               isCurrentUserAdmin={userCode === admin?.userCode}
+              isAdmin={user?.isAdmin}
               participantLink={generateParticipantLink(user?.userCode)}
               onInfoButtonClick={
                 userCode === admin?.userCode && userCode !== user?.userCode
